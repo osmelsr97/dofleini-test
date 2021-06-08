@@ -1,7 +1,6 @@
 import { IState } from "../state";
-import { IActionTypes } from "./action/actionTypes";
 
-const reducer = (state: IState, action: IActionTypes): IState => {
+const reducer = (state: IState, action: any): IState => {
     switch (action.type) {
         case "CHANGE_THEME_COLOR":
             return {

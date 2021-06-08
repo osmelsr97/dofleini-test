@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Avatar, Button, Form, Input, Row, Upload, message, Radio } from 'antd';
 import { UserOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import InfoMessage from './infoMessage';
@@ -9,35 +9,40 @@ import { Title } from '../lib/Typography';
 import { COLOR_PALETTE, PERSONS_QTY } from './../lib/Constants';
 import CardPrivacy from './cardPrivacy';
 import useWorkSpace from '../hooks/WorkSpace/hook/useWorkSpace';
+import {
+    CHANGE_THEME_COLOR,
+    CHANGE_WORKSPACE_NAME,
+    CHANGE_WORKSPACE_PERSONS_QTY,
+    CHANGE_WORKSPACE_PRIVACY,
+    CHANGE_WORKSPACE_URL
+} from '../hooks/WorkSpace/reducer/action/actionTypes';
 
 const CardForm = () => {
     const [form] = Form.useForm();
-    const { workSpacePersonQty, dispatch } = useWorkSpace();
+    const { dispatch } = useWorkSpace();
+    const [workSpacePersonQty, setWorkSpacePersonQty] = useState(1);
 
     const onFieldsChange = (changeFields: FieldData[], allFields: FieldData[]) => {
         const fieldName = changeFields[0].name.toString();
         const fieldValue = changeFields[0].value;
         if (fieldName === 'workSpaceName') {
-            dispatch({ type: 'CHANGE_WORKSPACE_NAME', [fieldName]: fieldValue })
+            dispatch({ type: CHANGE_WORKSPACE_NAME, [fieldName]: fieldValue })
         }
         if (fieldName === 'workSpaceUrl') {
-            dispatch({ type: 'CHANGE_WORKSPACE_URL', [fieldName]: fieldValue })
-        }
-        if (fieldName === 'workSpacePersonQty') {
-            dispatch({ type: 'CHANGE_WORKSPACE_PERSONS_QTY', [fieldName]: fieldValue })
+            dispatch({ type: CHANGE_WORKSPACE_URL, [fieldName]: fieldValue })
         }
     }
 
     const changeColorTheme = (newColor: string) => {
-        dispatch({ type: 'CHANGE_THEME_COLOR', themeColor: newColor })
+        dispatch({ type: CHANGE_THEME_COLOR, themeColor: newColor })
     }
 
     const changePrivacy = (privacy: string) => {
-        dispatch({ type: 'CHANGE_WORKSPACE_PRIVACY', workSpacePrivacy: privacy })
+        dispatch({ type: CHANGE_WORKSPACE_PRIVACY, workSpacePrivacy: privacy })
     }
 
     const changePersonQty = (personQty: number) => {
-        dispatch({ type: 'CHANGE_WORKSPACE_PERSONS_QTY', workSpacePersonQty: personQty })
+        dispatch({ type: CHANGE_WORKSPACE_PERSONS_QTY, workSpacePersonQty: personQty })
     }
 
     const uploadProps = {
@@ -112,7 +117,7 @@ const CardForm = () => {
                     style={{ justifyContent: 'space-between' }}                    >
                     <Row gutter={[16, 16]} justify='start'>
                         <Form.Item name='workSpacePersonQty' noStyle>
-                            <Radio.Group value={workSpacePersonQty} onChange={(e) => changePersonQty(e.target.value)} defaultValue={1}>
+                            <Radio.Group value={workSpacePersonQty} onChange={(e) => setWorkSpacePersonQty(e.target.value)} defaultValue={1}>
                                 {PERSONS_QTY.map((value) => (
                                     <Radio.Button
                                         style={{ marginRight: 10 }}
@@ -144,7 +149,7 @@ const CardForm = () => {
                     </div>
                 </Form.Item>
 
-                <Form.Item label="Privacidad del espacio"                    >
+                <Form.Item label="Privacidad del espacio">
                     <CardPrivacy onClick={(p) => changePrivacy(p)} />
                 </Form.Item>
 

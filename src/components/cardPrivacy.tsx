@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Radio, Col, Row } from 'antd';
 import { Text } from '../lib/Typography';
 import useWorkSpace from '../hooks/WorkSpace/hook/useWorkSpace';
@@ -8,13 +8,13 @@ interface IProps {
 }
 
 const CardPrivacy = ({ onClick }: IProps) => {
-    const { workSpacePrivacy } = useWorkSpace();
+    const [ privacy, setPrivacy ] = useState('private');
 
     return (
-        <Radio.Group onChange={(e) => onClick(e.target.value)} value={workSpacePrivacy}>
+        <Radio.Group onChange={(e) => setPrivacy(e.target.value)} value={privacy}>
             <Row justify='start'>
                 <Col span={11} style={{ marginRight: 12 }}>
-                    <Card hoverable onClick={() => onClick('private')}>
+                    <Card hoverable onClick={() => setPrivacy('private')}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <Radio value='private'>
                                 Privado
@@ -26,7 +26,7 @@ const CardPrivacy = ({ onClick }: IProps) => {
                     </Card>
                 </Col>
                 <Col span={11}>
-                    <Card hoverable onClick={() => onClick('public')}>
+                    <Card hoverable onClick={() => setPrivacy('public')}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <Radio value='public' >
                                 Público

@@ -1,29 +1,37 @@
-import React from 'react';
-import { Card, Avatar } from 'antd';
-import { Title, Text } from '../lib/Typography';
-import { UserOutlined } from '@ant-design/icons';
+import React, { useEffect } from 'react';
+import { Card } from 'antd';
 import useWorkSpace from '../hooks/WorkSpace/hook/useWorkSpace';
+import { ReactComponent as Svg } from './mask-group.svg';
+import styled from "styled-components";
 
 const CardPreview = () => {
-    const { themeColor, workSpaceName, workSpaceUrl, workSpacePrivacy, workSpacePersonQty } = useWorkSpace();
+    const { themeColor, workSpaceName, workSpaceUrl} = useWorkSpace();
+    useEffect(() => {
+        const tspList = document.getElementsByTagName('tspan');
+        Object.keys(tspList).map((val) => {
+            const node = tspList[parseInt(val)];
+            if (node.textContent?.includes('Mi Espacio') && workSpaceName.length) {
+                node.innerHTML = workSpaceName;
+            }
+            if (node.textContent?.includes('mi_dominio') && workSpaceUrl.length) {
+                node.innerHTML = workSpaceUrl + '.dofleini.com';
+            }
+        })
+    }, [workSpaceName, workSpaceUrl, themeColor])
 
-    const getPersonal = workSpacePersonQty === 1 ? 'Sólo yo' :
-        `Hasta ${workSpacePersonQty} ${workSpacePersonQty === 500 ? 'o más ' : ''} trabajadores`;
+    const svgContainer = ({ className, ...props }: any) => (
+        <Svg {...props} className={className} />
+    );
+
+    const WorkSpace = styled(svgContainer)`
+    .s {
+        fill: ${themeColor};
+    };
+    `;
 
     return (
         <Card bordered={true}>
-            <Title style={{ color: themeColor }} level={3}>{!workSpaceName ? 'Mi espacio' : workSpaceName}</Title>
-            <Title style={{ color: themeColor }} level={5}>Logo</Title>
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                <Avatar size={67} style={{ borderColor: themeColor, borderWidth: 1, borderStyle: 'solid' }} icon={<UserOutlined />} />
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Text style={{ marginLeft: 10, color: themeColor }}>{!workSpaceUrl ? 'mi_dominio' : workSpaceUrl}.dofleini.com</Text>
-                    <Text style={{ marginLeft: 10, color: themeColor }}>{workSpacePrivacy === 'private' ? 'Privado' : 'Público'}</Text>
-                    <Text style={{ marginLeft: 10, color: themeColor }}>
-                        Personal : {getPersonal}
-                    </Text>
-                </div>
-            </div>
+            <WorkSpace />
         </Card>)
 };
 

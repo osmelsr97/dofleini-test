@@ -1,11 +1,5 @@
-export type TAction = "CHANGE_THEME_COLOR" | "CHANGE_WORKSPACE_NAME" |
-    "CHANGE_WORKSPACE_URL" | "CHANGE_WORKSPACE_PERSONS_QTY" | "CHANGE_WORKSPACE_PRIVACY";
-
-export interface IActionTypes {
-    type: TAction,
-    themeColor?: string,
-    workSpaceName?: string,
-    workSpaceUrl?: string,
-    workSpacePersonQty?: number,
-    workSpacePrivacy?: string
-};
+export const CHANGE_THEME_COLOR = "CHANGE_THEME_COLOR";
+export const CHANGE_WORKSPACE_NAME = "CHANGE_WORKSPACE_NAME";
+export const CHANGE_WORKSPACE_URL = "CHANGE_WORKSPACE_URL";
+export const CHANGE_WORKSPACE_PERSONS_QTY = "CHANGE_WORKSPACE_PERSONS_QTY";
+export const CHANGE_WORKSPACE_PRIVACY = "CHANGE_WORKSPACE_PRIVACY";

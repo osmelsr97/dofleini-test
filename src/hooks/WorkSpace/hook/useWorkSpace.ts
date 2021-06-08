@@ -1,10 +1,8 @@
 import { Dispatch, useContext } from "react";
 import workSpaceContext from "../context";
-import { IActionTypes } from "../reducer/action/actionTypes";
 import { IState } from "../state";
-
 interface IWorkSpace extends IState {
-    dispatch: Dispatch<IActionTypes>
+    dispatch: Dispatch<any>
 }
 
 const useWorkSpace = (): IWorkSpace => {
